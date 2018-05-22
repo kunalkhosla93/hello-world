@@ -1,0 +1,141 @@
+1. Inversion of an image or complement
+
+from PIL import Image
+
+def array_image(filename):
+    img=Image.open(filename)
+    height,width=img.size
+    pix=list(img.getdata())
+    r=[[255-c[i] for i in range(3)]for c in pix]
+    return r
+
+import numpy as np
+import imageio
+
+def comp_image(r,filename):
+    img=Image.open(filename)
+    height,width=img.size
+    array=np.array(r, dtype=np.uint8).reshape(width,height, 3)
+    imageio.imwrite('Untitlednew.png',array )
+    z=Image.open('Untitlednew.png')
+    return z
+
+2. Bit plane slicing:
+
+from PIL import Image
+import numpy as np
+import imageio
+list=[]
+my_list=[]
+
+img = Image.open("nature.jpg")
+array_image=np.array(img, dtype=np.uint8)
+
+row,col=img.size
+def intToBitArray(array):
+    for i in range(row):
+        for j in range(col):
+            for x in range(3):
+                list.append(np.binary_repr(array[i][j][x], width=8))
+    return list
+
+imgall=intToBitArray(array_image)
+
+def func(imgall):
+    my_list=[]
+    y=1
+    for i in range(0,len(imgall),3):
+        for j in range(i,3*y):
+            if j+1<=len(imgall):
+                my_list.append(imgall[j])
+        print_new(my_list)        
+        y=y+1
+        my_list=[]
+a=[]        
+def print_new(my_list):
+    a.append(my_list)
+func(imgall)
+
+
+
+b=[]
+c=len(a)
+for i in range(c):
+    for j in range(3):
+        b.append(a[i][j][:1])
+        
+        
+def func_2(b):
+    my_list_2=[]
+    y=1
+    for i in range(0,len(b),3):
+        for j in range(i,3*y):
+            if j+1<=len(b):
+                my_list_2.append(b[j])
+        print_new_1(my_list_2)        
+        y=y+1
+        my_list_2=[]
+h=[]        
+def print_new_1(my_list_2):
+    h.append(my_list_2)
+    return h
+
+func_2(b)
+
+l=[]
+for i in range(len(h)):
+    for j in range(3):
+         l.append(int(h[i][j])*64)
+            
+
+def func(imgall):
+    my_list=[]
+    y=1
+    for i in range(0,len(imgall),3):
+        for j in range(i,3*y):
+            if j+1<=len(imgall):
+                my_list.append(imgall[j])
+        print_new(my_list)        
+        y=y+1
+        my_list=[]
+a=[]        
+def print_new(my_list):
+    a.append(my_list)
+func(imgall)            
+
+l=[]
+for i in range(len(h)):
+    for j in range(3):
+         l.append(int(h[i][j])*128)
+
+def func2(l):
+    k=[]
+    y=1
+    for i in range(0,len(l),3):
+        for j in range(i,3*y):
+            if j+1<=len(l):
+                my_list.append(l[j])
+        print_new(l)        
+        y=y+1
+        l=[]
+n=[] 
+m=[]
+def print_new(l):
+    m.append(l)
+func(l) 
+            
+#sevenbitimg =np.array(m).reshape(row,col,3)
+
+eightbitimg = np.array(m).reshape(row,col,3)
+#img=Image.fromarray(eightbitimg,'RGB')
+#img.save('Untitled8thplane.jpg')
+
+imageio.imwrite('Untitled8thplane.jpg', eightbitimg)
+eight=Image.open('Untitled8thplane.jpg')
+
+#imageio.imwrite('Untitled7thplane.jpg', sevenbitimg)
+#seven=Image.open('Untitled7thplane.jpg')
+
+#for 7th plane multiply by 64, 6th by 32 and so on and this will also change b.append(a[i][j][:1])<-- this is the 8th bit for 7th bit we can right b.append(a[i][j][:1])
+#as a[i][j][1:][:1]
+
