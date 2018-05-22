@@ -1,0 +1,26 @@
+import math
+import numpy as np
+
+x=[(1, 2), (2, 3), (7, 8), (5, 6), (3, 1), (6, 7), (9, 10)] #training set
+y=[4,5] #test set
+
+def get_score(t):# for sorting on the basis of key=dist
+    return t[1]
+
+def euc_dist(x,y): #to calculate eucledian distance and sorting the points based on increasing order of distance
+    point=[]
+    for i in range(len(x)):
+        point.append((x[i],math.sqrt(pow(x[i][0]-y[0],2) + pow(x[i][1]-y[1],2))))
+    return sorted(point,key=get_score)
+
+def k_close(new_point,k): #K closest distances
+    for i in range(len(x)):
+        d.append(new_point[i][1])
+    return np.unique(d)[:k]
+
+s=euc_dist(x,y)
+v=k_close(euc_dist(x,y),2) # for example 2 closest neighbours
+
+for i in range(len(s)): # printing corrdinates with k closest distances
+    if s[i][1] in v:
+        print(s[i][0])
